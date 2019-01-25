@@ -1,0 +1,27 @@
+
+後藤さん @hidenorigoto
+メルカリ本
+7.6兆円の市場規模(不用品の推定)
+事業展開
+特定カテゴリの強化
+エコシステムの構築
+海外展開の強化 mercari us, mercari uk
+エンジニア組織の現在と未来
+microservices
+責任の範囲を狭めることで，裁量を最大限大きくする
+merpay
+メルペイCTOさがわさん@sawawa
+メルペイ　次の「メルカリ」を生む舞台装置へ rideshare travel…etc
+全国に決済基盤を持つ
+Mercari
+bravewoodさん
+メルカリはphpでかかれているが，現在はgoで書かれることが多い
+microserviceの現状
+2018/7から重要な機能を先行して行なっている
+Listing Shipping Nortification
+PHPでの開発も並行
+来年からは本格的にマイクロサービスの開発に移行する
+merpay backend
+@keigowさん
+質問
+マイクロサービスアーキテクチャ
