@@ -1,0 +1,127 @@
+spring fest 2018
+2018/10/31
+
+# 決済システムの内製化
+# agenda
+* 内製への道のり
+自社のエンジニアは0人という状態だった
+運用の手作業が多い⇨ミス多発
+↓
+運用作業を自動化する githbu slackなど導入
+翌年
+サービス監視の質を高める
+開発プロジェクトの支援を開始
+課題
+* 古いアーキテクチャ
+* 高コストのシステム監視
+↓
+アーキテクチャをSpringベースに
+CICDを当たり前にする
+2018
+決済システムの内製をスタート
+### 開発対象のシステム
+オンライン決済システムサービス
+8000店で導入されている
+決済API
+開発ベンダに頼っていると小さな改善ができない（ちょっとした変更にも時間がかかる）⇨ 内製化して速度向上したい
+## 導入したもの
+PCF, Concourse
+## なぜPCFか？
+デベロッパーが注力したいことに注力できる
+デプロイの速度が上げられる
+契約事項 ⇨ *12 Factory App* に従う
+ソフトバンクペイメントでのアーキテクチャ⇨写真撮った
+Circuit breaker を導入している 使用ライブラリはHystrix
+決済機関などの、自分たちの責任範囲外と自社アプリの間にサーキットブレイカーをおいている
+API GatewayとSearviceAなどのアプリケーション間にもサーキットブレイカーをおいている
+RabbitMQ
+決済機関からのメッセージを加盟店に送る（非同期で行われる）
+PCF autoscaler
+自動的にスケールしてくれる
+Java複数バージョンでテストを行う(concourse上)
+Javaアップデートの弊害を未然に防げる
+Zipkin
+どこの処理でどれくらい時間がかかったかを確認できる
+実行されたSQLがどれくらい時間がかかった確認できる
+## これから
+リリースの建て付け
+
+
+# Rakuten travel
+## spring initializr
+プロジェクトの作成を行える
+## Spring Cloud Configuration
+メリット
+全てのアプリケーションで共通のconfigを持つことができる
+## Actuators
+☝️エンドポイントとなる
+Spring boot admin でactuatorsを一元化してみることができる
+### Amindで見れることの一部
+提供されるプロパティを確認できる
+ログレベルなども確認可能
+
+# swagger
+APIのエンドポイント情報の可視化
+URL などのパスの情報や、POSTなどのメソッド情報
+APIにどんなプロパティがあるかも簡単に共有できる
+Conclusion
+
+# sever less
+Serverの管理が必要のない⇨コストカット
+Severlessのメリット
+* Agility
+* Enable event driven
+* Focus on business
+* Consistent and scalable oprations
+Faas
+Kubelesが40%シェア
+
+Knative
+
+# LNE Ads Platform
+LAP = Line Ads Platform
+LINEアプリに表示される広告
+LINEに広告配信できる唯一のプラットフォーム
+7800万 MAU
+50msで表示できなくてはならない
+Real Time Bidding
+三者三用
+## Spring in LAP
+1. 50msを維持する工夫
+    * SSP
+    `メディア側を管理するPF`
+    *caffeine*
+    ☝️キャッシュのようなもの？
+    CMS側はKotlin + nuet
+    * DSP
+    `広告主のROIを最大化するように最適な広告を選択する`
+    Real Time Bidding
+    50msで返す必要がある
+```
+*Javaを使わない理由*
+* 50msで返す必要があるから
+* G1GCでも数十ms使う時がある
+* GoのGCは高速(Gabege collection)
+```
+様々なデータの持ち方
+メモリに乗るものは全部メモリにする
+乗らなければRedisを使う
+    * DMP
+    `広告配信を最適化するために特徴となるデータを提供する`
+    *推定オーディエンス情報配信*
+        * Ameria
+        * 50msでresponseを返す必要がある
+
+    Heapを増やして速度を向上させた
+    Java11にはZGCが導入⇨速度に関係している
+## Data Pipeline/Analytics Cluster
+広告配信に関わるあらゆるデータを収集し格納するPF
+## Kafka
+高速で安定したStreaming Platform
+各サービス間でのデータの受け渡し
+Queue や job schedulerとしても使える
+Write at Once, consumer anywhere
+
+メトリクス
+プロメテウスを使っていた
+今は actuator + micrometer
